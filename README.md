@@ -6,32 +6,6 @@ Trillbit SDK Demo on ESP32-S3-Box demonstrates how to use Trillbit SDK APIs. The
 - ESP-DSP: Trillbit SDK library depends on esp-dsp, its repo and commit used can be found [here](https://github.com/espressif/esp-dsp/tree/8ec1402467a20b81dffedde30194e826419fe263).
 - ESP-Box: Trillbit has modified the BSP layer of esp-box library to support 48kHz sample rate instead of the default 16kHz rate. Modified repo can be found [here](https://bitbucket.org/trillbitoutsourcedprojects/esp-box/src/bsp_sample_rate_48k/).
   
-## Compile
-Refer to [esp-box](https://github.com/espressif/esp-box#quick-start) Quick start guide to setup esp-idf and esp-box.
-
-Below steps assume *esp-idf* is cloned in directory named *~/trillbit* and all its setup steps are finished.
-
-```
-$ cd ~/trillbit
-
-$ git clone -b bsp_sample_rate_48k https://bitbucket.org/trillbitoutsourcedprojects/esp-box.git
-
-$ git clone https://github.com/espressif/esp-dsp.git
-$ cd esp-dsp
-$ git checkout 8ec1402467a20b81dffedde30194e826419fe263
-$ cd ..
-
-$ git clone https://bitbucket.org/trillbitoutsourcedprojects/mtfsk-esp32-s3-box.git
-$ git fetch --all --tags
-$ git checkout tags/v1.0 -b sdk_demo
-
-$ . esp-idf/export.sh
-
-$ cd mtfsk-esp32-s3-box
-$ idf.py -p </dev/tty?> build flash monitor
-```
-
-**NOTE**: Using the **flash** tool of idf will lead to full erase of *spiffs* partition which in-turn will cause deletion of any existing license file. If you want to preserve on-board *spiffs* contents while subsequent flashing, specify **app-flash** instead. If you already have a SDK license file in *spiffs* as part of source code then you can use **flash** or **app-flash** depending on your use-case.
 
 ## Flashing from Pre-built Binary - Windows
 
@@ -47,6 +21,22 @@ $ idf.py -p </dev/tty?> build flash monitor
 
 - Click *Start*. Once the download progress shows *Finish* status, reboot s3-box by pressing the *Reboot* switch (below USB connector).
 
+## Flashing from Pre-built Binary - macOS and Linux
+
+- python3 must be installed 
+
+- Connect your development board to the computer through a USB Type-C cable. 
+
+- Install esptool by entering the following command in Terminal (pip3 can be specified as pip):
+
+  - ``` pip3 install esptool ```
+
+- Upload the binary using the correct path
+
+  - ``` python3 -m esptool --chip esp32s3 write_flash 0x0 download_path/test_bin.bin ```
+
+4. Press reset button to test the firmware.
+
 # Licensing
 License for the Trillbit SDK can either be downloaded from developer portal and stored in [spiffs](spiffs/README.md) partition or can be acquired over USB by running the License provisioning script.
 
@@ -61,11 +51,10 @@ $ python -m venv py_env
 $ . py_env/bin/activate
 $ pip install pyserial
 ```
-**NOTE: DO NOT share this program to customers. They should use online-backend based program to generate license.**
 
 ```
-$ cd mtfsk-esp32-s3-box/scripts/license
-$ python main.py
+$ cd scripts/license
+$ python3 license_device_script.py
 ```
 
 Follow the instructions given by the script.
