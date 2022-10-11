@@ -7,9 +7,13 @@ import requests
 
 import sdk_com_commands
 
-print("Command line configuraion will override serial config mode.")
+
+print()
+print("Trillbit License Provisioning Application v1.0")
+print()
 print("Args(1): <path to client_secret_json_file>")
 print("Args(2): <path to client_secret_json_file> <device id> ")
+print()
 
 
 def get_device_license(device_id, client_secret_json):
@@ -51,7 +55,8 @@ if len(sys.argv) == 3:
     device_id = sys.argv[2]
     with open(sys.argv[1], 'r') as f:
         client_secret_json = json.load(f)
-    get_device_license(device_id, client_secret_json)
+    lic_bytes = get_device_license(device_id, client_secret_json)
+    print("User lic:", lic_bytes)
     sys.exit(0)
 elif len(sys.argv) == 2:
     # Args: <path to client_secret_json_file>
@@ -105,24 +110,31 @@ except ValueError:
     sys.exit(-1)
 
 print()
-print("Opening", com_port)
+print("Opening", com_port, flush=True)
 
 try:
-    with serial.Serial(com_port, 115200, timeout=1) as ser:
+    with serial.Serial(com_port, 115200, timeout=1, write_timeout=1, inter_byte_timeout=1) as ser:
         sio = io.TextIOWrapper(io.BufferedRWPair(ser, ser))
-        sdk_com_commands.flush(sio)
-        id = sdk_com_commands.get_serial_id(sio)
-        if id:
-            print("Device id:", id)
-            lic_bytes = get_device_license(id, client_secret_json)
+        ok = sdk_com_commands.flush(sio)
+        if ok:
+            id = sdk_com_commands.get_serial_id(sio)
+            if id:
+                print("Device id:", id)
 
-            #print("License ({}): {}".format(len(b64_license), b64_license))
-            print("Sending License")
-            ok = sdk_com_commands.set_license(sio, lic_bytes)
-            if ok:
-                print("Done.")
+                lic_bytes = get_device_license(id, client_secret_json)
+
+                #print("License ({}): {}".format(len(b64_license), b64_license))
+                print("Sending License")
+                ok = sdk_com_commands.set_license(sio, lic_bytes)
+                if ok:
+                    print("Done.")
+                else:
+                    print("Failed to set license")
             else:
-                print("Failed to set license")
+                print("Failed to get Device ID")
+        else:
+            print("Serial I/O failed")
+        print("Closing", com_port, flush=True)
 except KeyboardInterrupt:
     print("Aborting.")
 except Exception as e:
