@@ -4,7 +4,7 @@ Trillbit SDK Demo on ESP32-S3-Box demonstrates how to use Trillbit SDK APIs. The
 ## Software Requirements
 - ESP-IDF: Trillbit SDK and Demo application uses v4.4 release of esp-idf, its repo can be found [here](https://github.com/espressif/esp-idf/tree/release/v4.4).
 - ESP-DSP: Trillbit SDK library depends on esp-dsp, its repo and commit used can be found [here](https://github.com/espressif/esp-dsp/tree/8ec1402467a20b81dffedde30194e826419fe263).
-- ESP-Box: Trillbit has modified the BSP layer of esp-box library to support 48kHz sample rate instead of the default 16kHz rate. Modified repo can be found [here](https://bitbucket.org/trillbitoutsourcedprojects/esp-box/src/bsp_sample_rate_48k/).
+- ESP-Box: Trillbit has modified the BSP layer of esp-box library to support 48kHz sample rate instead of the default 16kHz rate. Modified repo can be found [here](https://github.com/Trillbit-Inc/Trillbit-esp-box).
   
 
 ## Flashing from Pre-built Binary - Windows
