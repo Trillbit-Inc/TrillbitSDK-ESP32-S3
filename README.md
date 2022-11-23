@@ -61,6 +61,8 @@ $ python3 license_device_script.py <path_to_the_platform_credentials_file>
 
 And follow the instructions given by the script.
 
+The platform credentials file can be downloaded by logging into the Trillbit developers portal.
+
 # Using the Demo
 
 On successful licensing, you would see the following SDK demo display
