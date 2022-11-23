@@ -1,5 +1,7 @@
 Trillbit SDK Demo on ESP32-S3-Box demonstrates how to use Trillbit SDK APIs. The demo also uses ESP-IDF and LVGL libraries.
 
+The documentation regarding the SDK can be found [here](https://trillbit.gitbook.io/trillbit-sdk/).
+
 # Setup Build Environment
 ## Software Requirements
 - ESP-IDF: Trillbit SDK and Demo application uses v4.4 release of esp-idf, its repo can be found [here](https://github.com/espressif/esp-idf/tree/release/v4.4).
@@ -33,7 +35,7 @@ Trillbit SDK Demo on ESP32-S3-Box demonstrates how to use Trillbit SDK APIs. The
 
 - Upload the binary using the correct path
 
-  - ``` python3 -m esptool --chip esp32s3 write_flash 0x0 download_path/test_bin.bin ```
+  - ``` python3 -m esptool --chip esp32s3 write_flash 0x0 pre_built_bins/trillbit_sdk_demo_v1.0.bin ```
 
 4. Press reset button to test the firmware.
 
@@ -54,10 +56,10 @@ $ pip install pyserial
 
 ```
 $ cd scripts/license
-$ python3 license_device_script.py
+$ python3 license_device_script.py <path_to_the_platform_credentials_file>
 ```
 
-Follow the instructions given by the script.
+And follow the instructions given by the script.
 
 # Using the Demo
 
